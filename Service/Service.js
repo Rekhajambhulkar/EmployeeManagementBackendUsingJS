@@ -23,7 +23,7 @@ class employeeService {
      }
    }
 
-  employeeDetailsGetService = (req) => {
+  getAllData = (req) => {
       return employeeModel.retrieveData(req).then(result => {
         return ({ message: "Employee Data fetched successfully !", data: result });
       }).catch(err => {
@@ -31,16 +31,22 @@ class employeeService {
       })
   }
 
-  employeeRetrieveOneContact = (req) =>{
-    return employeeModel.retrieveOneData(req).then(result =>{
-      return ({ message: "fetch one Data!", data: result});
+  deleteEmployeeData = (req) =>{
+    return employeeModel.deleteData(req.params.id).then(result =>{
+      if(!result){
+        return({message: "data not found !" + req.params.id})
+      }
+      return ({ message: "Employee data deleted Successfully!", data: result});
     }).catch(err =>{
-      return ({ message: "Failed to retrieving data !", error: err});
+      return ({message: "Failed to delete data!", error: err});
     })
   }
 
   getEmployeeUpdate = (req) => {
-    return employeeModel.updateData(req).then(result => {
+    return employeeModel.updateData(req.params.id, req.body).then(result => {
+      if(!result){
+        return ({message: "not found!" + req.params.id})
+      }
       return ({ message: "Employee Data Updated successfully !", data: result });
     }).catch(err => {
       

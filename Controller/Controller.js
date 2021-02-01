@@ -23,7 +23,7 @@ class employeeController {
         }
     }
 
-    findOne = (req, res) =>{
+  /*  findOne = (req, res) =>{
         console.log(req.body)
         employeeService.employeeRetrieveOneContact(req.body)
         .then(result =>{
@@ -37,11 +37,11 @@ class employeeController {
             response.error = error.err;
             return res.status(400).send(response)
         })
-    }
+    }*/
 
     findAll = (req, res) => {
-            console.log(req.body)
-            employeeService.employeeDetailsGetService(req.body)
+           // console.log(req.body)
+            employeeService.getAllData(req.body)
                 .then(result => {
                     response.success = true;
                     response.message = "Retrieve successfully!";
@@ -55,9 +55,23 @@ class employeeController {
                 })
     }
 
+    delete = (req, res) =>{
+        employeeService.deleteEmployeeData(req)
+        .then(result =>{
+            response.success = true;
+            response.message = "Deleted successfully";
+            response.data = result.data;
+            return res.status(200).send(response);
+        }).catch(err =>{
+            response.success = false;
+            response.message = "Invalid";
+            response.error = error.err;
+            return res.status(400).send(response);
+        })
+    }
+
     updateData = (req, res) => {
-        console.log(req.body);
-        employeeService.getEmployeeUpdate(req.body)
+        employeeService.getEmployeeUpdate(req)
             .then(result => {
                 response.sucess = true;
                 response.message = "updated successfully!";
