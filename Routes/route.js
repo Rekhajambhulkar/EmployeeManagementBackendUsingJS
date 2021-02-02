@@ -15,6 +15,4 @@ module.exports = (app) => {
 
    //Update a employee with employeeId
    app.put('/employee/:id', employeeController.updateData);
-
-  
-}
+  }

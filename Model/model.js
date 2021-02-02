@@ -30,8 +30,7 @@ const employeeSchema = new mongoose.Schema({
 const employees = mongoose.model('employees', employeeSchema)
 
 class Employee {
-    createData = (req, next) => {
-        try {
+    createData = (req) => {
             return new Promise((resolve, reject) => {
                 let employeeData = new employees(req)
                 employeeData.save().then(result => {
@@ -41,14 +40,11 @@ class Employee {
                     reject(err)
                 })
             })
-        } catch (error) {
-            next(error);
-        }
     }
 
-    retrieveData = (req) => {
+    retrieveData = () => {
             return new Promise((resolve, reject) => {
-                employees.find(req).then(result => {
+                employees.find().then(result => {
                     resolve(result)
                 }).catch(err => {
                     reject(err)
@@ -66,17 +62,9 @@ class Employee {
         })
     }
 
-    updateData = (req, reqUpdate, next ) => {
-     try {
+    updateData = (req, id) => {
             return new Promise((resolve, reject) => {
-                employees.findByIdAndUpdate(req, {
-                    firstname: reqUpdate.firstname,
-                    lastname: reqUpdate.lastname,
-                    emailId: reqUpdate.emailId,
-                    phoneNumber: reqUpdate.phoneNumber,
-                    salary: reqUpdate.salary,
-                    department: reqUpdate.department
-                }, {new: true})
+                employees.findByIdAndUpdate(id, req, {new: true})
                 .then(result => {
                     resolve(result)
                     console.log("get data Successfully", result);
@@ -84,9 +72,6 @@ class Employee {
                     reject(err)
                 })
             })
-        } catch (error) {
-            next(error);
-        }
     }
 }
 
